@@ -2,7 +2,6 @@ package me.shockyng.config;
 
 import com.sun.net.httpserver.HttpServer;
 import me.shockyng.APILogger;
-import me.shockyng.resources.HttpResource;
 
 import java.io.IOException;
 import java.net.Inet6Address;
@@ -21,15 +20,12 @@ public class APIServer {
         logger.info("InetSocketAddress created");
         server = HttpServer.create(inetSocketAddress, 0);
         logger.info("Server created");
+        server.createContext("/", new ResourcePathResolver());
     }
 
     public static void start() {
         server.start();
 
         logger.info("Server started and listing at port " + PORT);
-    }
-
-    public static void bindResource(HttpResource httpResource) {
-        server.createContext(httpResource.getResourceName(), httpResource);
     }
 }

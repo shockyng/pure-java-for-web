@@ -1,23 +1,19 @@
-package me.shockyng.resources;
+package me.shockyng.config;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.Arrays;
 
-public abstract class HttpResource implements HttpHandler {
+public abstract class HttpResource {
 
-    /**
-     * @return the resource URI is going to be requested via HTTP method
-     */
-    public abstract String getResourceName();
-
-    public void processResponse(String responseBodyMessage, HttpExchange exchange) throws IOException {
+    public void processResponse(String responseBodyMessage, int StatusCode, HttpExchange exchange) throws IOException {
         OutputStream os = exchange.getResponseBody();
         byte[] bytes = responseBodyMessage.getBytes();
-        exchange.sendResponseHeaders(200, bytes.length);
+        exchange.sendResponseHeaders(StatusCode, bytes.length);
         os.write(bytes);
         os.close();
     }
